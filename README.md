@@ -1,6 +1,3 @@
-
-Driving a DC motor via Node-RED with Feather Huzzah ESP8266 using DC Motor + Stepper FeatherWing Add-on
-
 # Prerequisites:
 - [Node-RED](https://nodered.org/docs/getting-started/installation)
 - npm packages:
