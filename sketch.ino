@@ -10,12 +10,13 @@ FeatherWing Add-on
 
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
+#include <Servo.h>
 
 // Update these with values suitable for your network.
 
-const char* ssid = ".....";
-const char* password = ".....";
-const char* mqtt_server = "192.168.43.10";
+const char* ssid = "roboy";
+const char* password = "";
+const char* mqtt_server = "192.168.0.5";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -29,11 +30,11 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 // Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61); 
 
 // Select which 'port' M1, M2, M3 or M4. In this case, M1
-Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
+Adafruit_DCMotor *myMotor = AFMS.getMotor(2);
 // You can also make another motor on port M2
 //Adafruit_DCMotor *myOtherMotor = AFMS.getMotor(2);
 
-
+Servo servo1;
 
 void setup() {
   Serial.begin(9600);
@@ -45,6 +46,8 @@ void setup() {
   myMotor->setSpeed(150);
   myMotor->run(FORWARD);
   myMotor->run(RELEASE);
+
+  servo1.attach(0);
 }
 
 void setup_wifi() {
@@ -156,7 +159,13 @@ if (String(topic) == "move") {
       msg_str.toCharArray(msg, msg_str.length() + 1);
       client.publish("connected", msg);
     }
-     
+
+    else if(String(topic) == "servo1") {
+      Serial.println("Activating servo1");
+      servo1.write(setpoint);
+      delay(50);
+    }
+    
      
   }
 
@@ -179,6 +188,7 @@ void reconnect() {
       client.subscribe("move");
       client.subscribe("position");
       client.subscribe("checkconnection");
+      client.subscribe("servo1");
       
     } else {
       Serial.print("failed, rc=");
@@ -195,5 +205,4 @@ void loop() {
     reconnect();
   }
   client.loop();
-
 }
