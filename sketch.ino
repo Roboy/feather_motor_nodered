@@ -14,9 +14,9 @@ FeatherWing Add-on
 
 // Update these with values suitable for your network.
 
-const char* ssid = "roboy";
-const char* password = "";
-const char* mqtt_server = "192.168.0.5";
+const char* ssid = "BMWTMS";
+const char* password = "BMWtms18";
+const char* mqtt_server = "192.168.0.101";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
